@@ -60,33 +60,23 @@ func FromLabelAdaptersToLabelsWithCopy(input []LabelAdapter) labels.Labels {
 func CopyLabels(input []labels.Label) labels.Labels {
 	result := make(labels.Labels, len(input))
 
-	size := 0
-	for _, l := range input {
-		size += len(l.Name)
-		size += len(l.Value)
-	}
-
-	// Copy all strings into the buffer, and use 'yoloString' to convert buffer
-	// slices to strings.
-	buf := make([]byte, size)
-
 	for i, l := range input {
-		result[i].Name, buf = copyStringToBuffer(l.Name, buf)
-		result[i].Value, buf = copyStringToBuffer(l.Value, buf)
+		result[i].Name = copyString(l.Name)
+		result[i].Value = copyString(l.Value)
 	}
 	return result
 }
 
 // Copies string to buffer (which must be big enough), and converts buffer slice containing
 // the string copy into new string.
-func copyStringToBuffer(in string, buf []byte) (string, []byte) {
+func copyString(in string) string {
 	l := len(in)
+	buf := make([]byte, l)
 	c := copy(buf, in)
 	if c != l {
 		panic("not copied full string")
 	}
-
-	return yoloString(buf[0:l]), buf[l:]
+	return yoloString(buf)
 }
 
 // FromLabelsToLabelAdapters casts labels.Labels to []LabelAdapter.
