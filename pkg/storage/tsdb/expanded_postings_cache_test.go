@@ -42,7 +42,8 @@ func TestCacheKey(t *testing.T) {
 		},
 	}
 	r := cacheKey(seed, blockID, matchers...)
-	require.Equal(t, "seed123|00000000010000000000000000|name_1=value_1|name_2!=value_2|name_3=~value_4|name_5!~value_4|", r)
+	expect := fmt.Sprintf("seed123|%s|name_1=value_1|name_2!=value_2|name_3=~value_4|name_5!~value_4", string(blockID[:]))
+	require.Equal(t, expect, r)
 }
 
 func Test_ShouldFetchPromiseOnlyOnce(t *testing.T) {

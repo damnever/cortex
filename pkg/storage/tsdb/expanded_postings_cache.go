@@ -276,7 +276,7 @@ func cacheKey(seed string, blockID ulid.ULID, ms ...*labels.Matcher) string {
 		sepLen  = 1
 	)
 
-	size := len(seed) + len(blockID.String()) + 2*sepLen
+	size := len(seed) + len(blockID) + sepLen
 	for _, m := range ms {
 		size += len(m.Name) + len(m.Value) + typeLen + sepLen
 	}
@@ -284,13 +284,12 @@ func cacheKey(seed string, blockID ulid.ULID, ms ...*labels.Matcher) string {
 	sb.Grow(size)
 	sb.WriteString(seed)
 	sb.WriteByte('|')
-	sb.WriteString(blockID.String())
-	sb.WriteByte('|')
+	sb.Write(blockID[:])
 	for _, m := range ms {
+		sb.WriteByte('|')
 		sb.WriteString(m.Name)
 		sb.WriteString(m.Type.String())
 		sb.WriteString(m.Value)
-		sb.WriteByte('|')
 	}
 	key := sb.String()
 	return key
