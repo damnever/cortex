@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	jsoniter "github.com/json-iterator/go"
 	"github.com/munnerz/goautoneg"
 	"github.com/opentracing/opentracing-go"
 	otlog "github.com/opentracing/opentracing-go/log"
@@ -20,18 +19,13 @@ import (
 	"github.com/cortexproject/cortex/pkg/api/queryapi"
 	"github.com/cortexproject/cortex/pkg/querier/stats"
 	"github.com/cortexproject/cortex/pkg/querier/tripperware"
+	json "github.com/cortexproject/cortex/pkg/querier/tripperware/jsoniterutil"
 	"github.com/cortexproject/cortex/pkg/util"
 	"github.com/cortexproject/cortex/pkg/util/limiter"
 	"github.com/cortexproject/cortex/pkg/util/spanlogger"
 )
 
 var (
-	json = jsoniter.Config{
-		EscapeHTML:             false, // No HTML in our responses.
-		SortMapKeys:            true,
-		ValidateJsonRawMessage: false,
-	}.Froze()
-
 	rulerMIMEType = v1.MIMEType{Type: "application", SubType: tripperware.QueryResponseCortexMIMESubType}
 	jsonMIMEType  = v1.MIMEType{Type: "application", SubType: "json"}
 )

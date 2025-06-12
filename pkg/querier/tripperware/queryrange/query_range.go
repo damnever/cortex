@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	jsoniter "github.com/json-iterator/go"
 	"github.com/opentracing/opentracing-go"
 	otlog "github.com/opentracing/opentracing-go/log"
 	"github.com/prometheus/common/model"
@@ -19,6 +18,7 @@ import (
 	"github.com/cortexproject/cortex/pkg/api/queryapi"
 	"github.com/cortexproject/cortex/pkg/querier/stats"
 	"github.com/cortexproject/cortex/pkg/querier/tripperware"
+	json "github.com/cortexproject/cortex/pkg/querier/tripperware/jsoniterutil"
 	"github.com/cortexproject/cortex/pkg/util"
 
 	"github.com/cortexproject/cortex/pkg/util/limiter"
@@ -30,11 +30,6 @@ const StatusSuccess = "success"
 
 var (
 	matrix = model.ValMatrix.String()
-	json   = jsoniter.Config{
-		EscapeHTML:             false, // No HTML in our responses.
-		SortMapKeys:            true,
-		ValidateJsonRawMessage: false,
-	}.Froze()
 
 	// Name of the cache control header.
 	cacheControlHeader = "Cache-Control"

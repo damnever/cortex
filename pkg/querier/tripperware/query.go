@@ -26,16 +26,9 @@ import (
 	"github.com/weaveworks/common/httpgrpc"
 
 	"github.com/cortexproject/cortex/pkg/cortexpb"
+	json "github.com/cortexproject/cortex/pkg/querier/tripperware/jsoniterutil"
 	"github.com/cortexproject/cortex/pkg/util/limiter"
 	"github.com/cortexproject/cortex/pkg/util/runutil"
-)
-
-var (
-	json = jsoniter.Config{
-		EscapeHTML:             false, // No HTML in our responses.
-		SortMapKeys:            true,
-		ValidateJsonRawMessage: false,
-	}.Froze()
 )
 
 type CodecType string
